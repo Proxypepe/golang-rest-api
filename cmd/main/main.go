@@ -6,15 +6,17 @@ import (
 	"net"
 	"net/http"
 	"restapi/internal/user"
+	"restapi/pkg/logging"
 	"time"
 )
 
 
 func main() {
-	log.Println("Create router")
+	logger := logging.GetLogger()
+	logger.Info("Create router")
 	router := httprouter.New()
-	log.Println("Register user handler")
-	handler := user.NewHandler()
+	logger.Info("Register user handler")
+	handler := user.NewHandler(logger)
 	handler.Register(router)
 	start(router)
 }

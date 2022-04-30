@@ -4,6 +4,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"net/http"
 	"restapi/internal/handlers"
+	"restapi/pkg/logging"
 )
 
 var _ handlers.Handler = &handler{}
@@ -14,11 +15,13 @@ const (
 )
 
 type handler struct {
-
+	logger logging.Logger
 }
 
-func NewHandler() handlers.Handler {
-	return &handler{}
+func NewHandler(logger logging.Logger) handlers.Handler {
+	return &handler{
+		logger: logger,
+	}
 }
 
 func (h *handler) Register(router *httprouter.Router) {
@@ -59,4 +62,3 @@ func (h *handler) DeleteUser(w http.ResponseWriter, r *http.Request, params http
 	w.WriteHeader(204)
 	w.Write([]byte("this is delete user"))
 }
-
