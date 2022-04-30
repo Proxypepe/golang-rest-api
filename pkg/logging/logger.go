@@ -10,7 +10,7 @@ import (
 )
 
 type writerHook struct {
-	Writer []io.Writer
+	Writer    []io.Writer
 	LogLevels []logrus.Level
 }
 
@@ -35,12 +35,12 @@ type Logger struct {
 	*logrus.Entry
 }
 
-func GetLogger() Logger {
-	return Logger{e}
+func GetLogger() *Logger {
+	return &Logger{e}
 }
 
-func (l *Logger) GetLoggerWithField(k string, v interface{}) Logger {
-	return Logger{l.WithField(k, v)}
+func (l *Logger) GetLoggerWithField(k string, v interface{}) *Logger {
+	return &Logger{l.WithField(k, v)}
 }
 
 func init() {
@@ -67,7 +67,7 @@ func init() {
 	l.SetOutput(io.Discard)
 
 	l.AddHook(&writerHook{
-		Writer: []io.Writer{allFile, os.Stdout},
+		Writer:    []io.Writer{allFile, os.Stdout},
 		LogLevels: logrus.AllLevels,
 	})
 
